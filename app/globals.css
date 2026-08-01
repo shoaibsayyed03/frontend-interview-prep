@@ -16,14 +16,12 @@
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
   --color-accent-muted-bg: var(--accent-muted-bg);
-  --color-accent-muted-text: var(--accent-muted-text);
   --color-success: var(--success);
   --color-border-subtle: var(--border-subtle);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
@@ -33,8 +31,6 @@
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -55,8 +51,6 @@
   --surface-3: #1f1f23;
   --border: #e3dcde08;
   --border-subtle: #1f1f23;
-  --card: #111113;
-  --card-foreground: #fafafa;
   --popover: #18181b;
   --popover-foreground: #fafafa;
   --primary: #a3e635;
@@ -66,9 +60,7 @@
   --muted: #1f1f23;
   --muted-foreground: #71717a;
   --accent: #a3e635;
-  --accent-foreground: #0a0f02;
   --accent-muted-bg: #1a2e05;
-  --accent-muted-text: #a3e635;
   --destructive: #f87171;
   --success: #4ade80;
   --input: #27272a;
@@ -89,8 +81,6 @@
   --surface-3: #1f1f23;
   --border: #e3dcde08;
   --border-subtle: #1f1f23;
-  --card: #111113;
-  --card-foreground: #fafafa;
   --popover: #18181b;
   --popover-foreground: #fafafa;
   --primary: #a3e635;
@@ -100,9 +90,7 @@
   --muted: #1f1f23;
   --muted-foreground: #71717a;
   --accent: #a3e635;
-  --accent-foreground: #0a0f02;
   --accent-muted-bg: #1a2e05;
-  --accent-muted-text: #a3e635;
   --destructive: #f87171;
   --success: #4ade80;
   --input: #27272a;
@@ -138,13 +126,6 @@
     line-height: 1.1;
   }
 
-  .text-section-h2 {
-    font-family: var(--font-heading);
-    font-size: 1.75rem;
-    font-weight: 600;
-    line-height: 1.2;
-  }
-
   .text-card-title {
     font-family: var(--font-heading);
     font-size: 1.125rem;
@@ -174,12 +155,6 @@
     font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.4;
-  }
-
-  .text-badge {
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1.2;
   }
 
   .text-nav {
