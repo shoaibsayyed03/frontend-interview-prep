@@ -1,7 +1,7 @@
 # Product Requirements Document
 ## Frontend Interview Prep
 
-**Last updated:** July 31, 2026
+**Last updated:** August 1, 2026
 
 ---
 
@@ -54,66 +54,103 @@ This creates real friction and anxiety for candidates in the final days before a
 
 ## 5. Scope
 
+### Product scope (north star)
 - Structured content library of Q&As across defined topics.
-- Browse, search, and filter by topic, question type, and keyword.
+- Browse, search, and filter by topic, question type, difficulty, and keyword.
+- Inline reading on a single list — no per-question detail pages or back-navigation loop.
+
+### Shipped in v1 (current codebase)
+- **Single homepage** (`/`) with hero, sticky filter bar, and a flat question list.
+- **Markdown content pipeline** (Velite): questions live under `content/questions/{topic}/{slug}.md`, validated at build time.
+- **Filters synced to the URL**: `topic`, `type`, `difficulty`, and `q` (keyword). Shareable filtered views; no full page reload when filters change.
+- **Keyword search** (300ms debounce): matches **question title and tags** (not full answer body yet).
+- **Standard Q&A rows**: title + rendered markdown answer, **2-line clamp** when long, expand/collapse in place (multiple rows can stay open).
+- **MCQ rows**: optional prompt body, selectable options, immediate correct/incorrect styling, explanation after answer (UI ready; MCQ markdown files can be added under the same schema).
+- **Responsive filter UX**: desktop inline dropdowns + search; mobile search + **Filters** dialog (bottom sheet pattern).
+- **Dark theme** UI with shadcn/Radix components.
+
+### Not in v1 (planned / backlog)
+- Per-topic landing routes (e.g. `/javascript`).
+- Full-text search across answer bodies.
+- Results count line (e.g. "142 questions found").
+- Pagination or virtualized infinite scroll (all matching rows render today).
+- Display of `lastUpdated` in the UI (field exists in content schema only).
+- Per-question URLs / deep links / SEO for individual questions.
+- Analytics on search and browse behavior.
+- Progress tracking, accounts, or contributor workflows.
 
 ---
 
 ## 6. Content Taxonomy
 
-Content is organized along two independent axes so users can filter by either or both:
+Content is organized along two independent axes so users can filter by either or both. Folder slugs and filter values are defined in `lib/content-taxonomy.ts` and enforced by Velite.
 
-**By Topic:**
-- JavaScript (language & runtime fundamentals)
-- React (or framework-agnostic + React-specific split)
-- Frontend theory (browser, rendering, performance, accessibility)
-- SEO
-- System design (frontend-specific: component architecture, state management at scale, design systems)
-- Coding-style / DSA (frontend-flavored: array/string problems, algorithmic thinking)
+**By topic** (`content/questions/{topic}/…`):
 
-**By Question Type:**
-- Conceptual Q&A (short, direct explanations)
-- Tricky/gotcha questions (common misconceptions)
-- Scenario-based ("what would you do if...")
-- Multiple-choice quick-checks (self-testing)
-- Coding problems (with walkthroughs)
-- System design explainers (longer-form, structured)
+| Slug | Label |
+|---|---|
+| `javascript` | JavaScript |
+| `react` | React |
+| `theory` | Frontend Theory |
+| `seo` | SEO |
+| `system-design` | System Design |
+| `dsa` | Coding / DSA |
 
-Each content item should carry metadata: topic, question type, difficulty (Beginner/Intermediate/Advanced), and tags (freeform keywords) to power search and filtering.
+**By question type** (frontmatter `type`):
+
+| Value | Label |
+|---|---|
+| `conceptual` | Conceptual |
+| `tricky` | Tricky |
+| `scenario` | Scenario |
+| `mcq` | MCQ |
+| `coding` | Coding |
+| `system-design` | System Design |
+
+**Difficulty:** `beginner` | `intermediate` | `advanced`
+
+**Tags:** freeform string array in frontmatter; shown as badges and included in keyword search.
+
+**Required frontmatter (all items):** `title`, `type`, `difficulty`, `tags`, `lastUpdated`, and markdown `body`.
+
+**MCQ-only fields:** `options` (array of `{ id, text }`), `correctOptionId`, optional `explanation`.
+
+Each built item gets a stable id `{topic}-{slug}` (slug from filename).
 
 ---
 
 ## 7. Core Features
 
-| # | Feature | Description |
-|---|---|---|
-| M1 | **Content Library** | Structured repository of questions, each with a plain-language answer. Core data model: Question, Answer, Topic, Type, Difficulty, Tags. |
-| M2 | **Browse by Topic** | Landing pages per topic (e.g., "JavaScript") listing all questions under it, with sub-filtering by type/difficulty. |
-| M3 | **Browse by Question Type** | Ability to filter/browse across all topics by type (e.g., "show me all Scenario questions"). |
-| M4 | **Keyword Search** | Full-text search across questions, answers, and tags with instant/typeahead results. |
-| M5 | **Multiple-Choice Quick Checks** | Interactive MCQ format for self-testing, with immediate correct/incorrect feedback and explanation. |
-| M6 | **Coding-Style DSA Section** | Problem statement, approach explanation, and solution walkthrough (not just a code dump). |
-| M7 | **System Design Explainers** | Longer-form structured content: problem framing, trade-offs, example solution structure. |
-| M8 | **Responsive Web UI** | Fully usable on desktop and mobile browsers — revision often happens on the go. |
-| M9 | **Content Freshness/Versioning** | Each item shows last-updated date so users trust the content is current. |
-| M10 | **Basic Site Search Analytics** | Track what's searched/browsed most, to guide content prioritization (internal, not user-facing). |
+| # | Feature | Status | Description |
+|---|---|---|---|
+| M1 | **Content library** | Shipped | Markdown questions compiled to typed JSON via Velite; loaded on the server for the homepage. |
+| M2 | **Browse by topic** | Partial | Filter by topic on the homepage + URL param; dedicated topic pages not built. |
+| M3 | **Browse by question type** | Shipped | Filter by type (and difficulty) on homepage + URL. |
+| M4 | **Keyword search** | Partial | Debounced search on title + tags; URL param `q`; answer body not indexed. |
+| M5 | **MCQ quick checks** | Shipped (UI) | Interactive options with success/destructive feedback; content can use `type: mcq`. |
+| M6 | **Coding-style DSA section** | Content | Same inline list UX as other types; type `coding` in taxonomy. |
+| M7 | **System design explainers** | Content | Same inline list UX; type `system-design` in taxonomy. |
+| M8 | **Responsive web UI** | Shipped | Desktop filter row; mobile filters dialog; readable typography for long answers. |
+| M9 | **Content freshness** | Schema only | `lastUpdated` required in markdown; not shown in UI yet. |
+| M10 | **Search analytics** | Not started | Internal prioritization; no instrumentation in app. |
 
 ---
 
-## 8. User Journey
+## 8. User Journey (v1)
 
-1. User lands on homepage → selects a topic (e.g., React) or searches a keyword.
-2. Browses list, filtered by type (e.g., "Tricky Questions") and/or difficulty.
-3. Reads answers quickly.
-4. Optionally takes an MCQ quick-check to self-test.
+1. User opens the homepage → sees hero stats (total questions × topics with content) and the filter bar.
+2. User sets **topic**, **question type**, and/or **difficulty** via dropdowns (or opens **Filters** on mobile).
+3. User types in **search**; after a short debounce, the list and URL update.
+4. User scans the list: for normal Q&As, clicks the row (or uses keyboard) to **See more** / **See less**; for MCQs, picks an option and reads the explanation.
+5. User adjusts filters without leaving the page; expanded rows stay local to the session (not in the URL).
 
 ---
 
 ## 9. Non-Functional Requirements
 
-- **Performance:** Page should load in under 1–2 seconds; search results should return near-instantly (sub-300ms perceived).
-- **Accessibility:** WCAG 2.1 AA baseline — keyboard navigable, screen-reader friendly, sufficient color contrast.
-- **Scalability:** Content model should support hundreds to low-thousands of questions without needing an architecture rework.
+- **Performance:** Static generation of the homepage; client-side filtering over the in-memory question set. Acceptable for low hundreds of items; revisit pagination/virtualization as the library grows.
+- **Accessibility:** Keyboard-expandable rows when clamped; labeled search and filter controls; Radix primitives for dialog/popover/collapsible. Full WCAG audit not claimed for v1.
+- **Scalability:** Content model supports hundreds of questions; duplicate ids and invalid topics fail the Velite strict build.
 
 ---
 
