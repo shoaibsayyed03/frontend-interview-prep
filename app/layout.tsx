@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
 import { Geist, Lexend } from "next/font/google";
 import "./globals.css";
+
+import { siteMetadata } from "@/lib/site-metadata";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -12,10 +13,7 @@ const geist = Geist({
   variable: "--font-body",
 });
 
-export const metadata: Metadata = {
-  title: "Frontend Interview Prep",
-  description: "A platform for frontend interview preparation",
-};
+export const metadata = siteMetadata;
 
 export default function RootLayout({
   children,

@@ -1,9 +1,23 @@
 export const siteConfig = {
   name: "Frontend Interview Prep",
+  /** Canonical production URL (no trailing slash). Used for metadataBase and sitemap. */
+  url: "https://fe-interview-prep.vercel.app",
   description:
-    "The single, tidy home for every frontend interview question and answer you'll ever need.",
+    "Searchable frontend interview questions and answers for JavaScript, React, the browser, performance, accessibility, SEO, system design, and DSA — written for fast revision before interviews.",
+  /** Served from `public/static/og.png` (1200×630 recommended). */
+  ogImage: "/static/og.png",
+  keywords: [
+    "frontend interview",
+    "frontend interview questions",
+    "javascript interview",
+    "react interview",
+    "web development interview",
+    "system design frontend",
+    "frontend SEO",
+    "interview preparation",
+  ],
   github: {
-    url: "https://github.com",
+    url: "https://github.com/shoaibsayyed03/frontend-interview-prep",
     label: "Star on GitHub",
   },
   hero: {
