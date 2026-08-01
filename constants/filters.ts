@@ -1,3 +1,12 @@
+import {
+  DIFFICULTIES,
+  DIFFICULTY_LABELS,
+  QUESTION_TYPES,
+  QUESTION_TYPE_LABELS,
+  TOPIC_LABELS,
+  ALLOWED_TOPICS,
+} from "@/lib/content-taxonomy";
+
 export type FilterOption = {
   value: string;
   label: string;
@@ -13,25 +22,34 @@ const anyOption: FilterOption = { value: "any", label: "Any" };
 
 export const TOPIC_FILTER_OPTIONS: FilterOption[] = [
   anyOption,
-  { value: "javascript", label: "JavaScript" },
-  { value: "react", label: "React" },
-  { value: "frontend-theory", label: "Frontend Theory" },
-  { value: "seo", label: "SEO" },
-  { value: "system-design", label: "System Design" },
-  { value: "coding-dsa", label: "Coding / DSA" },
+  ...ALLOWED_TOPICS.map((slug) => ({
+    value: slug,
+    label: TOPIC_LABELS[slug],
+  })),
 ];
 
-export const TAG_FILTER_OPTIONS: FilterOption[] = [
+export const TYPE_FILTER_OPTIONS: FilterOption[] = [
   anyOption,
-  { value: "closures", label: "Closures" },
-  { value: "hooks", label: "Hooks" },
-  { value: "virtual-dom", label: "Virtual DOM" },
-  { value: "performance", label: "Performance" },
-  { value: "accessibility", label: "Accessibility" },
+  ...QUESTION_TYPES.map((value) => ({
+    value,
+    label: QUESTION_TYPE_LABELS[value],
+  })),
 ];
 
-/** Filter bar dropdowns — labels mirror the reference layout, options from the PRD taxonomy. */
+export const DIFFICULTY_FILTER_OPTIONS: FilterOption[] = [
+  anyOption,
+  ...DIFFICULTIES.map((value) => ({
+    value,
+    label: DIFFICULTY_LABELS[value],
+  })),
+];
+
 export const FILTER_DROPDOWNS: FilterDropdown[] = [
   { id: "topic", label: "Topic", options: TOPIC_FILTER_OPTIONS },
-  { id: "tags", label: "Tags", options: TAG_FILTER_OPTIONS },
+  { id: "type", label: "Question Type", options: TYPE_FILTER_OPTIONS },
+  {
+    id: "difficulty",
+    label: "Difficulty",
+    options: DIFFICULTY_FILTER_OPTIONS,
+  },
 ];

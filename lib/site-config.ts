@@ -10,7 +10,7 @@ export const siteConfig = {
     statLabel: "142 questions across 6 topics",
     titleBefore: "All your",
     titleAccent: "frontend",
-    titleAfter: "interview prep in one place",
+    titleAfter: "interview questions in one place",
     subtitle:
       "Plain-language questions and answers for JavaScript, React, the browser, performance, accessibility, and more — searchable and written for fast revision.",
   },
