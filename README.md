@@ -2,6 +2,9 @@
 
 A searchable library of frontend interview questions and answers - JavaScript, React, browser theory, SEO, system design, and coding-style problems - written for fast revision before interviews.
 
+![screenshot](./public/og.png)
+
+
 ## Features
 
 - **Single homepage** — browse all questions at `/`. No hopping between detail pages and back.

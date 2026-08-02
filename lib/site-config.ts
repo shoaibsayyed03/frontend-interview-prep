@@ -4,8 +4,8 @@ export const siteConfig = {
   url: "https://fe-interview-prep.vercel.app",
   description:
     "Searchable frontend interview questions and answers for JavaScript, React, the browser, performance, accessibility, SEO, system design, and DSA — written for fast revision before interviews.",
-  /** Served from `public/static/og.png` (1200×630 recommended). */
-  ogImage: "/static/og.png",
+  /** Served from `public/og.png` (1200×630 recommended). */
+  ogImage: "/og.png",
   keywords: [
     "frontend interview",
     "frontend interview questions",
